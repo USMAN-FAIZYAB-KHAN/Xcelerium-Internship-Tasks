@@ -1,0 +1,54 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/PMLS/Desktop/Encoder/simulation/modelsim
+vencoder
+Z1 !s110 1766383029
+!i10b 1
+!s100 0dh4]93Bn_NHkIV>7K@Uk0
+Il`Vj?1?zT;M6_6az2;dBQ0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1766324165
+8C:/Users/PMLS/Desktop/Encoder/encoder.v
+FC:/Users/PMLS/Desktop/Encoder/encoder.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1766383029.000000
+!s107 C:/Users/PMLS/Desktop/Encoder/encoder.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/PMLS/Desktop/Encoder|C:/Users/PMLS/Desktop/Encoder/encoder.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+C:/Users/PMLS/Desktop/Encoder
+Z7 tCvgOpt 0
+vencoder_tb
+R1
+!i10b 1
+!s100 Un:2Al5^UeiFgcGM:CSL81
+I3WbOkgQ]UV]i9]<i?mFc[0
+R2
+R0
+w1766383012
+8C:/Users/PMLS/Desktop/Encoder/encoder_tb.v
+FC:/Users/PMLS/Desktop/Encoder/encoder_tb.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/PMLS/Desktop/Encoder/encoder_tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/PMLS/Desktop/Encoder|C:/Users/PMLS/Desktop/Encoder/encoder_tb.v|
+!i113 1
+R5
+R6
+R7

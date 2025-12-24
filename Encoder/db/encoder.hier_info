@@ -1,0 +1,32 @@
+|encoder
+in[0] => WideOr0.IN0
+in[1] => WideOr0.IN1
+in[1] => out.DATAA
+in[2] => WideOr0.IN2
+in[2] => out.OUTPUTSELECT
+in[2] => out.DATAA
+in[3] => WideOr0.IN3
+in[3] => out.OUTPUTSELECT
+in[3] => out.OUTPUTSELECT
+in[4] => WideOr0.IN4
+in[4] => out.OUTPUTSELECT
+in[4] => out.OUTPUTSELECT
+in[4] => out.DATAA
+in[5] => WideOr0.IN5
+in[5] => out.OUTPUTSELECT
+in[5] => out.OUTPUTSELECT
+in[5] => out.OUTPUTSELECT
+in[6] => WideOr0.IN6
+in[6] => out.OUTPUTSELECT
+in[6] => out.OUTPUTSELECT
+in[6] => out.OUTPUTSELECT
+in[7] => WideOr0.IN7
+in[7] => out.OUTPUTSELECT
+in[7] => out.OUTPUTSELECT
+in[7] => out.OUTPUTSELECT
+out[0] <= out.DB_MAX_OUTPUT_PORT_TYPE
+out[1] <= out.DB_MAX_OUTPUT_PORT_TYPE
+out[2] <= out.DB_MAX_OUTPUT_PORT_TYPE
+valid <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,54 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/PMLS/Desktop/Adder/simulation/modelsim
+vadder32
+Z1 !s110 1766339242
+!i10b 1
+!s100 _hz@NWK<:l]JZhPk9k9US2
+IZGC8F;jimeGYR[PKCOMCB2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1766318644
+8C:/Users/PMLS/Desktop/Adder/adder32.v
+FC:/Users/PMLS/Desktop/Adder/adder32.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1766339242.000000
+!s107 C:/Users/PMLS/Desktop/Adder/adder32.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/PMLS/Desktop/Adder|C:/Users/PMLS/Desktop/Adder/adder32.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+C:/Users/PMLS/Desktop/Adder
+Z7 tCvgOpt 0
+vadder32_tb
+R1
+!i10b 1
+!s100 >_J9IN1`Khd]>VDVCkQgT3
+I3g]2GFo_MmFk@?CWF7YA23
+R2
+R0
+w1766339202
+8C:/Users/PMLS/Desktop/Adder/adder32_tb.v
+FC:/Users/PMLS/Desktop/Adder/adder32_tb.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/PMLS/Desktop/Adder/adder32_tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/PMLS/Desktop/Adder|C:/Users/PMLS/Desktop/Adder/adder32_tb.v|
+!i113 1
+R5
+R6
+R7
