@@ -2,13 +2,16 @@
 import seq_detector_pkg::*;
 
 module seq_detector (
-	input logic clk, rst_n, in_bit,
-	output logic seq_detected
+	input logic clk,
+    input logic rst_n, // asynchronous active low reset
+    input logic in_bit, // input bit stream
+	output logic seq_detected // output high when sequence 1011 is detected
 );
 
 	state_t current_state, next_state;
 	
-	always_comb begin
+	// Next state logic
+    always_comb begin
 		case (current_state)
 			S0: next_state = in_bit ? S1 : S0;
 			S1: next_state = in_bit ? S1 : S2;
@@ -19,13 +22,15 @@ module seq_detector (
 		endcase
 	end
 	
-	always_ff @(posedge clk or negedge rst_n) begin
+	// State register
+    always_ff @(posedge clk or negedge rst_n) begin
 		if (! rst_n) begin
 			current_state <= S0;
 		end
 		else current_state <= next_state;
 	end
 
+    // Output logic (Moore)
 	always_comb begin
 		 if (current_state == S4)
 			  seq_detected = 1'b1;
