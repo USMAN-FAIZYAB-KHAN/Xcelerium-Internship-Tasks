@@ -1,0 +1,263 @@
+run -all;
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=1
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][GEN] in_bit=0
+# KERNEL: [55000][DRV] in_bit=1
+# KERNEL: [65000][DRV] in_bit=0
+# KERNEL: [65000][MON] in_bit=1 seq_detected=0
+# KERNEL: [65000][SC] Match! Actual:0 Expected:0
+# KERNEL: [65000][SC] in_bit=1 seq_detected=0
+# KERNEL: [75000][DRV] in_bit=1
+# KERNEL: [75000][MON] in_bit=0 seq_detected=0
+# KERNEL: [75000][SC] Match! Actual:0 Expected:0
+# KERNEL: [75000][SC] in_bit=0 seq_detected=0
+# KERNEL: [85000][DRV] in_bit=1
+# KERNEL: [85000][MON] in_bit=1 seq_detected=0
+# KERNEL: [85000][SC] Match! Actual:0 Expected:0
+# KERNEL: [85000][SC] in_bit=1 seq_detected=0
+# KERNEL: [95000][DRV] in_bit=0
+# KERNEL: [95000][MON] in_bit=1 seq_detected=0
+# KERNEL: [95000][SC] Match! Actual:0 Expected:0
+# KERNEL: [95000][SC] in_bit=1 seq_detected=0
+# KERNEL: [105000][DRV] in_bit=1
+# KERNEL: [105000][MON] in_bit=0 seq_detected=1
+# KERNEL: [105000][SC] Match! Actual:1 Expected:1
+# KERNEL: [105000][SC] in_bit=0 seq_detected=1
+# KERNEL: [115000][DRV] in_bit=1
+# KERNEL: [115000][MON] in_bit=1 seq_detected=0
+# KERNEL: [115000][SC] Match! Actual:0 Expected:0
+# KERNEL: [115000][SC] in_bit=1 seq_detected=0
+# KERNEL: [125000][DRV] in_bit=0
+# KERNEL: [125000][MON] in_bit=1 seq_detected=0
+# KERNEL: [125000][SC] Match! Actual:0 Expected:0
+# KERNEL: [125000][SC] in_bit=1 seq_detected=0
+# KERNEL: [135000][DRV] in_bit=1
+# KERNEL: [135000][MON] in_bit=0 seq_detected=1
+# KERNEL: [135000][SC] Match! Actual:1 Expected:1
+# KERNEL: [135000][SC] in_bit=0 seq_detected=1
+# KERNEL: [145000][DRV] in_bit=1
+# KERNEL: [145000][MON] in_bit=1 seq_detected=0
+# KERNEL: [145000][SC] Match! Actual:0 Expected:0
+# KERNEL: [145000][SC] in_bit=1 seq_detected=0
+# KERNEL: [155000][DRV] in_bit=0
+# KERNEL: [155000][MON] in_bit=1 seq_detected=0
+# KERNEL: [155000][SC] Match! Actual:0 Expected:0
+# KERNEL: [155000][SC] in_bit=1 seq_detected=0
+# KERNEL: [165000][DRV] in_bit=1
+# KERNEL: [165000][MON] in_bit=0 seq_detected=1
+# KERNEL: [165000][SC] Match! Actual:1 Expected:1
+# KERNEL: [165000][SC] in_bit=0 seq_detected=1
+# KERNEL: [175000][DRV] in_bit=1
+# KERNEL: [175000][MON] in_bit=1 seq_detected=0
+# KERNEL: [175000][SC] Match! Actual:0 Expected:0
+# KERNEL: [175000][SC] in_bit=1 seq_detected=0
+# KERNEL: [185000][DRV] in_bit=1
+# KERNEL: [185000][MON] in_bit=1 seq_detected=0
+# KERNEL: [185000][SC] Match! Actual:0 Expected:0
+# KERNEL: [185000][SC] in_bit=1 seq_detected=0
+# KERNEL: [195000][DRV] in_bit=1
+# KERNEL: [195000][MON] in_bit=1 seq_detected=1
+# KERNEL: [195000][SC] Match! Actual:1 Expected:1
+# KERNEL: [195000][SC] in_bit=1 seq_detected=1
+# KERNEL: [205000][DRV] in_bit=0
+# KERNEL: [205000][MON] in_bit=1 seq_detected=0
+# KERNEL: [205000][SC] Match! Actual:0 Expected:0
+# KERNEL: [205000][SC] in_bit=1 seq_detected=0
+# KERNEL: [215000][DRV] in_bit=1
+# KERNEL: [215000][MON] in_bit=0 seq_detected=0
+# KERNEL: [215000][SC] Match! Actual:0 Expected:0
+# KERNEL: [215000][SC] in_bit=0 seq_detected=0
+# KERNEL: [225000][DRV] in_bit=1
+# KERNEL: [225000][MON] in_bit=1 seq_detected=0
+# KERNEL: [225000][SC] Match! Actual:0 Expected:0
+# KERNEL: [225000][SC] in_bit=1 seq_detected=0
+# KERNEL: [235000][DRV] in_bit=1
+# KERNEL: [235000][MON] in_bit=1 seq_detected=0
+# KERNEL: [235000][SC] Match! Actual:0 Expected:0
+# KERNEL: [235000][SC] in_bit=1 seq_detected=0
+# KERNEL: [245000][DRV] in_bit=1
+# KERNEL: [245000][MON] in_bit=1 seq_detected=1
+# KERNEL: [245000][SC] Match! Actual:1 Expected:1
+# KERNEL: [245000][SC] in_bit=1 seq_detected=1
+# KERNEL: [255000][DRV] in_bit=0
+# KERNEL: [255000][MON] in_bit=1 seq_detected=0
+# KERNEL: [255000][SC] Match! Actual:0 Expected:0
+# KERNEL: [255000][SC] in_bit=1 seq_detected=0
+# KERNEL: [265000][DRV] in_bit=0
+# KERNEL: [265000][MON] in_bit=0 seq_detected=0
+# KERNEL: [265000][SC] Match! Actual:0 Expected:0
+# KERNEL: [265000][SC] in_bit=0 seq_detected=0
+# KERNEL: [275000][DRV] in_bit=1
+# KERNEL: [275000][MON] in_bit=0 seq_detected=0
+# KERNEL: [275000][SC] Match! Actual:0 Expected:0
+# KERNEL: [275000][SC] in_bit=0 seq_detected=0
+# KERNEL: [285000][DRV] in_bit=1
+# KERNEL: [285000][MON] in_bit=1 seq_detected=0
+# KERNEL: [285000][SC] Match! Actual:0 Expected:0
+# KERNEL: [285000][SC] in_bit=1 seq_detected=0
+# KERNEL: [295000][DRV] in_bit=1
+# KERNEL: [295000][MON] in_bit=1 seq_detected=0
+# KERNEL: [295000][SC] Match! Actual:0 Expected:0
+# KERNEL: [295000][SC] in_bit=1 seq_detected=0
+# KERNEL: [305000][DRV] in_bit=1
+# KERNEL: [305000][MON] in_bit=1 seq_detected=0
+# KERNEL: [305000][SC] Match! Actual:0 Expected:0
+# KERNEL: [305000][SC] in_bit=1 seq_detected=0
+# KERNEL: [315000][DRV] in_bit=0
+# KERNEL: [315000][MON] in_bit=1 seq_detected=0
+# KERNEL: [315000][SC] Match! Actual:0 Expected:0
+# KERNEL: [315000][SC] in_bit=1 seq_detected=0
+# KERNEL: [325000][DRV] in_bit=1
+# KERNEL: [325000][MON] in_bit=0 seq_detected=0
+# KERNEL: [325000][SC] Match! Actual:0 Expected:0
+# KERNEL: [325000][SC] in_bit=0 seq_detected=0
+# KERNEL: [335000][DRV] in_bit=1
+# KERNEL: [335000][MON] in_bit=1 seq_detected=0
+# KERNEL: [335000][SC] Match! Actual:0 Expected:0
+# KERNEL: [335000][SC] in_bit=1 seq_detected=0
+# KERNEL: [345000][DRV] in_bit=1
+# KERNEL: [345000][MON] in_bit=1 seq_detected=0
+# KERNEL: [345000][SC] Match! Actual:0 Expected:0
+# KERNEL: [345000][SC] in_bit=1 seq_detected=0
+# KERNEL: [355000][DRV] in_bit=0
+# KERNEL: [355000][MON] in_bit=1 seq_detected=1
+# KERNEL: [355000][SC] Match! Actual:1 Expected:1
+# KERNEL: [355000][SC] in_bit=1 seq_detected=1
+# KERNEL: [365000][DRV] in_bit=0
+# KERNEL: [365000][MON] in_bit=0 seq_detected=0
+# KERNEL: [365000][SC] Match! Actual:0 Expected:0
+# KERNEL: [365000][SC] in_bit=0 seq_detected=0
+# KERNEL: [375000][DRV] in_bit=1
+# KERNEL: [375000][MON] in_bit=0 seq_detected=0
+# KERNEL: [375000][SC] Match! Actual:0 Expected:0
+# KERNEL: [375000][SC] in_bit=0 seq_detected=0
+# KERNEL: [385000][DRV] in_bit=1
+# KERNEL: [385000][MON] in_bit=1 seq_detected=0
+# KERNEL: [385000][SC] Match! Actual:0 Expected:0
+# KERNEL: [385000][SC] in_bit=1 seq_detected=0
+# KERNEL: [395000][DRV] in_bit=0
+# KERNEL: [395000][MON] in_bit=1 seq_detected=0
+# KERNEL: [395000][SC] Match! Actual:0 Expected:0
+# KERNEL: [395000][SC] in_bit=1 seq_detected=0
+# KERNEL: [405000][DRV] in_bit=0
+# KERNEL: [405000][MON] in_bit=0 seq_detected=0
+# KERNEL: [405000][SC] Match! Actual:0 Expected:0
+# KERNEL: [405000][SC] in_bit=0 seq_detected=0
+# KERNEL: [415000][DRV] in_bit=0
+# KERNEL: [415000][MON] in_bit=0 seq_detected=0
+# KERNEL: [415000][SC] Match! Actual:0 Expected:0
+# KERNEL: [415000][SC] in_bit=0 seq_detected=0
+# KERNEL: [425000][DRV] in_bit=0
+# KERNEL: [425000][MON] in_bit=0 seq_detected=0
+# KERNEL: [425000][SC] Match! Actual:0 Expected:0
+# KERNEL: [425000][SC] in_bit=0 seq_detected=0
+# KERNEL: [435000][DRV] in_bit=0
+# KERNEL: [435000][MON] in_bit=0 seq_detected=0
+# KERNEL: [435000][SC] Match! Actual:0 Expected:0
+# KERNEL: [435000][SC] in_bit=0 seq_detected=0
+# KERNEL: [445000][DRV] in_bit=0
+# KERNEL: [445000][MON] in_bit=0 seq_detected=0
+# KERNEL: [445000][SC] Match! Actual:0 Expected:0
+# KERNEL: [445000][SC] in_bit=0 seq_detected=0
+# KERNEL: [455000][DRV] in_bit=1
+# KERNEL: [455000][MON] in_bit=0 seq_detected=0
+# KERNEL: [455000][SC] Match! Actual:0 Expected:0
+# KERNEL: [455000][SC] in_bit=0 seq_detected=0
+# KERNEL: [465000][DRV] in_bit=0
+# KERNEL: [465000][MON] in_bit=1 seq_detected=0
+# KERNEL: [465000][SC] Match! Actual:0 Expected:0
+# KERNEL: [465000][SC] in_bit=1 seq_detected=0
+# KERNEL: [475000][DRV] in_bit=0
+# KERNEL: [475000][MON] in_bit=0 seq_detected=0
+# KERNEL: [475000][SC] Match! Actual:0 Expected:0
+# KERNEL: [475000][SC] in_bit=0 seq_detected=0
+# KERNEL: [485000][DRV] in_bit=0
+# KERNEL: [485000][MON] in_bit=0 seq_detected=0
+# KERNEL: [485000][SC] Match! Actual:0 Expected:0
+# KERNEL: [485000][SC] in_bit=0 seq_detected=0
+# KERNEL: [495000][DRV] in_bit=0
+# KERNEL: [495000][MON] in_bit=0 seq_detected=0
+# KERNEL: [495000][SC] Match! Actual:0 Expected:0
+# KERNEL: [495000][SC] in_bit=0 seq_detected=0
+# KERNEL: [505000][DRV] in_bit=1
+# KERNEL: [505000][MON] in_bit=0 seq_detected=0
+# KERNEL: [505000][SC] Match! Actual:0 Expected:0
+# KERNEL: [505000][SC] in_bit=0 seq_detected=0
+# KERNEL: [515000][DRV] in_bit=1
+# KERNEL: [515000][MON] in_bit=1 seq_detected=0
+# KERNEL: [515000][SC] Match! Actual:0 Expected:0
+# KERNEL: [515000][SC] in_bit=1 seq_detected=0
+# KERNEL: [525000][DRV] in_bit=0
+# KERNEL: [525000][MON] in_bit=1 seq_detected=0
+# KERNEL: [525000][SC] Match! Actual:0 Expected:0
+# KERNEL: [525000][SC] in_bit=1 seq_detected=0
+# KERNEL: [535000][DRV] in_bit=1
+# KERNEL: [535000][MON] in_bit=0 seq_detected=0
+# KERNEL: [535000][SC] Match! Actual:0 Expected:0
+# KERNEL: [535000][SC] in_bit=0 seq_detected=0
+# KERNEL: [545000][DRV] in_bit=0
+# KERNEL: [545000][MON] in_bit=1 seq_detected=0
+# KERNEL: [545000][SC] Match! Actual:0 Expected:0
+# KERNEL: [545000][SC] in_bit=1 seq_detected=0
+# KERNEL: [555000][DRV] in_bit=0
+# KERNEL: [555000][MON] in_bit=0 seq_detected=0
+# KERNEL: [555000][SC] Match! Actual:0 Expected:0
+# KERNEL: [555000][SC] in_bit=0 seq_detected=0
+# KERNEL: [565000][DRV] in_bit=0
+# KERNEL: [565000][MON] in_bit=0 seq_detected=0
+# KERNEL: [565000][SC] Match! Actual:0 Expected:0
+# KERNEL: [565000][SC] in_bit=0 seq_detected=0
+# KERNEL: [575000][MON] in_bit=0 seq_detected=0
+# KERNEL: [575000][SC] Match! Actual:0 Expected:0
+# KERNEL: [575000][SC] in_bit=0 seq_detected=0
+# KERNEL: [575000][SC] All 52 transactions processed!
+# KERNEL: Simulation Finished Successfully at 575000
