@@ -27,7 +27,7 @@ module adder32_tb;
     initial begin
         $display("--- Starting Testbench ---");
 		  
-		  check_add(32'h0, 32'h0, 0);               
+	check_add(32'h0, 32'h0, 0);               
         check_add(32'hFFFFFFFF, 32'hFFFFFFFF, 0);  
 
         for (i = 0; i < 5; i = i + 1) begin
