@@ -30,7 +30,7 @@ class vga_txn;
   
   	function void display(string tag, bit show=0);
       if (show)
-        $display("[%0t][%s] en:%b hs:%b vs:%b addr:%h video_on:%b", $time, 			tag, en, hsync, vsync, sram_addr, video_on);
+        $display("[%0t][%s] en:%b hs:%b vs:%b addr:%h video_on:%b", $time, tag, en, hsync, vsync, sram_addr, video_on);
       else
         $display("[%0t][%s] en:%b", $time, tag, en);     	
     endfunction	
@@ -82,9 +82,47 @@ class monitor;
 	virtual vga_if vif;
 	mailbox #(vga_txn) mon2scb;
 
+	// coverage group to track signal transitions
+    covergroup vga_cg;
+        option.per_instance = 1;
+        
+        cp_hsync: coverpoint vif.hsync {
+            bins active = {0};
+            bins inactive = {1};
+        }
+        cp_vsync: coverpoint vif.vsync {
+            bins active = {0};
+            bins inactive = {1};
+        }
+        cp_video_on: coverpoint vif.video_on {
+            bins visible = {1};
+            bins blanking = {0};
+        }
+		cp_h_state: coverpoint vif.h_state {
+			bins states[] = {VISIBLE, FRONT_PORCH, SYNC_PULSE, BACK_PORCH};
+		}
+		cp_v_state: coverpoint vif.v_state {
+			bins states[] = {VISIBLE, FRONT_PORCH, SYNC_PULSE, BACK_PORCH};
+		}
+		cp_h_state_transition: coverpoint vif.h_state {
+			bins VISIBLE_to_FRONT_PORCH = (VISIBLE => FRONT_PORCH);
+			bins FRONT_PORCH_to_SYNC_PULSE = (FRONT_PORCH => SYNC_PULSE);
+			bins SYNC_PULSE_to_BACK_PORCH = (SYNC_PULSE => BACK_PORCH);
+			bins BACK_PORCH_to_VISIBLE = (BACK_PORCH => VISIBLE);
+		}
+		cp_v_state_transition: coverpoint vif.v_state {
+			bins VISIBLE_to_FRONT_PORCH = (VISIBLE => FRONT_PORCH);
+			bins FRONT_PORCH_to_SYNC_PULSE = (FRONT_PORCH => SYNC_PULSE);
+			bins SYNC_PULSE_to_BACK_PORCH = (SYNC_PULSE => BACK_PORCH);
+			bins BACK_PORCH_to_VISIBLE = (BACK_PORCH => VISIBLE);
+		}
+		cp_h_sync_vsync_cross: cross cp_hsync, cp_vsync;
+    endgroup
+
 	function new(virtual vga_if vif, mailbox #(vga_txn) mb);
 		this.vif = vif;
 		this.mon2scb = mb;
+      	vga_cg = new();
 	endfunction
 	
 	task run();
@@ -92,6 +130,7 @@ class monitor;
     	vga_txn t;
       	forever begin
           	@(posedge vif.clk_25mhz);
+          vga_cg.sample();
           	t = new();
           	t.en = vif.en;
             t.hsync = vif.hsync;

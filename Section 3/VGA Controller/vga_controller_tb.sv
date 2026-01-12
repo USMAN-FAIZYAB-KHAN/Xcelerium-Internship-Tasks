@@ -9,6 +9,8 @@ interface vga_if(input logic clk_25mhz);
     logic vsync;
   	logic [18:0] sram_addr;
     logic video_on;
+    logic [1:0] h_state;
+    logic [1:0] v_state;
 endinterface
 
 module vga_controller_tb;
@@ -17,6 +19,9 @@ module vga_controller_tb;
   	always #20 clk_25mhz = ~clk_25mhz;
   
   	vga_if vif(clk_25mhz);
+
+    assign vif.h_state = dut.h_state_reg;
+    assign vif.v_state = dut.v_state_reg;
   
   	int total_txn = 700;
   

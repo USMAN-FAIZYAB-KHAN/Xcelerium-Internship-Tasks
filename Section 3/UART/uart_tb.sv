@@ -1,72 +1,104 @@
-`timescale 1ns / 1ps
+import uart_pkg::*;
+`timescale 1ns/1ps
 
-module uart_tb();
-
-    // Inputs
-    logic clk;
+// Interface Definition
+interface uart_if(input logic clk);
     logic reset;
     logic [7:0] din;
-    logic s_tick;
     logic tx_en;
+    logic s_tick;
+    logic tx;
+    logic tx_done;
+    logic rx;
+    logic [7:0] dout;
+    logic rx_done;
+  	logic parity_err;
+    logic [2:0] current_state_tx;
+    logic [2:0] current_state_rx;
+endinterface
+
+module uart_tb;
+
+    bit clk;
+    bit reset;
     logic [10:0] dvsr;
 
-    // Outputs
-    logic tx;
-    logic tx_done_tick;
+    uart_if inf(clk);
 
-    // Instantiate Baud Generator
-    baud_gen bgen_inst (
+    always #5 clk = ~clk; // 100MHz Clock
+
+    assign dvsr = 11'd651; // For 9600 Baud Rate with 100MHz Clock
+
+    baud_gen BAUD_UNIT (
         .clk(clk),
-        .reset(reset),
+        .reset(inf.reset),
         .dvsr(dvsr),
-        .tick(s_tick)
+        .tick(inf.s_tick)
     );
 
-    // Instantiate UART Transmitter
-    uart_tx #(
-        .DBIT(8),
-        .SB_TICK(16)
-    ) dut (
+    // connect tx to rx for loopback
+    assign inf.rx = inf.tx;
+
+    // initialize uart transmitter
+    uart_tx #(8, 16) DUT_TX (
         .clk(clk),
-        .reset(reset),
-        .din(din),
-        .s_tick(s_tick),
-        .tx_en(tx_en),
-        .tx(tx),
-        .tx_done_tick(tx_done_tick)
+        .reset(inf.reset),
+        .din(inf.din),
+        .s_tick(inf.s_tick),
+        .tx_en(inf.tx_en),
+        .tx(inf.tx),
+        .tx_done_tick(inf.tx_done)
     );
 
-    // 1. Clock Generation (50 MHz -> 20ns period)
-    always #10 clk = ~clk;
+    // initialize uart receiver
+    uart_rx #(8, 16) DUT_RX (
+        .clk(clk),
+        .reset(inf.reset),
+        .rx(inf.rx),
+        .s_tick(inf.s_tick),
+        .rx_done_tick(inf.rx_done),
+      	.parity_err(inf.parity_err),
+        .dout(inf.dout)
+    );
 
-    // 2. Test Sequence
+    // additional connections for coverage
+    assign inf.current_state_tx = DUT_TX.current_state;
+    assign inf.current_state_rx = DUT_RX.state_reg;
+  
+    mailbox #(uart_txn) gen2drv;
+    mailbox #(uart_txn) gen2scb;
+  	mailbox #(uart_txn) mon2scb;
+  
+  	generator  gen;
+    driver     drv;
+    monitor    mon;
+    scoreboard scb;
+
     initial begin
-        // Initialize signals
-        clk = 0;
-        reset = 1;
-        tx_en = 0;
-        din = 8'h00;
-        dvsr = 11'd326; // For 9600 baud with 50MHz clock
+        gen2drv = new();
+        gen2scb = new();
+        mon2scb = new();
 
-        // Reset the system
-        #100;
-        reset = 0;
-        #100;
+        gen = new(gen2drv, gen2scb);
+        drv = new(inf, gen2drv);
+        mon = new(inf, mon2scb);
+        scb = new(mon2scb, gen2scb);
 
-        // --- Transmit 0x39 (Binary: 0011 1001) ---
-        // Expecting: Start(0), LSB First (1,0,0,1,1,1,0,0), Stop(1)
-        wait(clk == 0); // Align with clock
-        din = 8'h39; 
-        tx_en = 1;
-        #20;            // Pulse for one clock cycle
-        tx_en = 0;
+        // Reset
+        inf.reset = 1;
+        #50 inf.reset = 0;
 
-        // Wait for completion
-        @(posedge tx_done_tick);
-        $display("Transmission Complete at time %t", $time);
+        $display("[%0t][TOP] Starting UART Test...", $time);
 
-        #5000; // Extra padding to see idle state
-        $stop;
+        fork
+          	gen.run('{8'h76, 8'h00, 8'hFF}, 2); 
+            drv.run();
+            mon.run();
+          	scb.run(5);
+        join_none
+
+        @(scb.done);
+        $display("Simulation Finished Successfully at %0t", $time);
+        $finish;
     end
-
 endmodule
