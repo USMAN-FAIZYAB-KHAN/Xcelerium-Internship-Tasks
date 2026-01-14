@@ -4,6 +4,8 @@ A SystemVerilog implementation of a VGA controller designed to generate precise 
 ## FSM Design
 The VGA controller is implemented using two synchronized Finite State Machines (FSMs) that manage the horizontal scan and vertical frame timing.
 
+<img width="1382" height="855" alt="VGA Controller State Transition Diagram" src="https://github.com/user-attachments/assets/185a7c86-668c-44bd-9368-5e7dc1852b27" />
+
 ### Horizontal State Machine
 The Horizontal FSM controls the timing for a single scanline. It transitions based on the pixel clock (25 MHz) and the `h_cnt_reg` value:
 - __Visible__: The active video region where pixels are drawn ($h\_cnt\_reg == H\_ACTIVE - 1$).
