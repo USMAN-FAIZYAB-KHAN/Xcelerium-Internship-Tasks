@@ -20,7 +20,6 @@ endinterface
 module uart_tb;
 
     bit clk;
-    bit reset;
     logic [10:0] dvsr;
 
     uart_if inf(clk);

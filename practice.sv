@@ -11,7 +11,6 @@ module i2c_master (
    inout  wire         sda, // I2C data line
    inout  wire         scl, // I2C clock line
    output logic        done // high when transaction is done
-   output logic        ack_error // high if ACK not received
 );
 
     // State variables 
@@ -19,7 +18,7 @@ module i2c_master (
     
     // Phase and bit counters
     logic [1:0] phase;
-    logic [2:0] bit_cnt;
+    logic [2:0] bit_cnt, bit_cnt_next;
     
     logic sda_out;
     logic scl_out;
@@ -33,10 +32,7 @@ module i2c_master (
             if (phase == 2'b11) begin
                 phase         <= 2'b00;
                 current_state <= next_state;      
-                if (current_state == ADDR || current_state == DATA_1 || current_state == DATA_2)
-                    bit_cnt <= bit_cnt + 1;
-                else
-                    bit_cnt <= 3'b000;
+                bit_cnt       <= bit_cnt_next;
             end else begin
                 phase <= phase + 1;
             end
@@ -45,6 +41,7 @@ module i2c_master (
 
     always_comb begin
         next_state = current_state;
+        bit_cnt_next = bit_cnt;
         sda_out    = 1'b1;
         scl_out    = 1'b1;
         done       = 1'b0;
@@ -67,38 +64,53 @@ module i2c_master (
 
             ADDR: begin
                 next_state = (bit_cnt == 3'd7) ? ACK_1 : ADDR;
+                bit_cnt_next = (bit_cnt == 3'd7) ? 3'd0 : bit_cnt + 1;
                 sda_out = (bit_cnt < 7) ? slave_addr[6 - bit_cnt] : rw;
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
             end
 
             ACK_1: begin
-                next_state = DATA_1;
                 sda_out = 1'b1;
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+                if (phase == 2'b10 && sda == 1'b1) begin
+                    next_state = STOP;
+                end else if (phase == 2'b11) begin
+                    next_state = DATA_1;
+                end
             end
 
             DATA_1: begin
                 next_state = (bit_cnt == 3'd7) ? ACK_2 : DATA_1;
+                bit_cnt_next = (bit_cnt == 3'd7) ? 3'd0 : bit_cnt + 1;
                 sda_out = data_in[11 - bit_cnt];
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
             end
 
             ACK_2: begin
-                next_state = DATA_2;
                 sda_out = 1'b1;
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+                if (phase == 2'b10 && sda == 1'b1) begin
+                    next_state = STOP;
+                end else if (phase == 2'b11) begin
+                    next_state = DATA_2;
+                end
             end
 
             DATA_2: begin
                 next_state = (bit_cnt == 3'd7) ? ACK_3 : DATA_2;
+                bit_cnt_next = (bit_cnt == 3'd7) ? 3'd0 : bit_cnt + 1;
                 sda_out = (bit_cnt < 4) ? data_in[3 - bit_cnt] : 1'b0; 
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
             end
 
             ACK_3: begin
-                next_state = STOP;
                 sda_out = 1'b1;
                 scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+                if (phase == 2'b10 && sda == 1'b1) begin
+                    next_state = STOP;
+                end else if (phase == 2'b11) begin
+                    next_state = STOP;
+                end
             end
 
             STOP: begin

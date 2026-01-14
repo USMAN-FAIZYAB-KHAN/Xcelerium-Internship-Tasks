@@ -7,7 +7,6 @@ module i2c_slave (
     output logic done
 );
 
-    typedef enum logic [3:0] {IDLE, START, ADDR, ACK_1, DATA_1, ACK_2, DATA_2, ACK_3, STOP} state_t;
     localparam [6:0] slave_addr_val = 7'd52;
     state_t state, next_state;
     
