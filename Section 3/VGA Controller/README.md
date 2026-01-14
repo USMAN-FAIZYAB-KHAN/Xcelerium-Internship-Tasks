@@ -1,6 +1,7 @@
 # VGA Controller
 
 ## FSM Design
+<img width="1382" height="855" alt="VGA Controller State Transition Diagram" src="https://github.com/user-attachments/assets/185a7c86-668c-44bd-9368-5e7dc1852b27" />
 
 ## Verification Methodology
 
