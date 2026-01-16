@@ -1,121 +1,172 @@
 import i2c_pkg::*;
 
 module i2c_master (
-   input  logic        clk,
-   input  logic        tick_4x,
-   input  logic        rst_n,
-   input  logic        enable,
-   input  logic        rw, // 0: write, 1: read
-   input  logic [6:0]  slave_addr, // 7-bit slave address
-   input  logic [11:0] data_in, // 12-bit data to write
-   inout  wire         sda, // I2C data line
-   inout  wire         scl, // I2C clock line
-   output logic        done // high when transaction is done
-   output logic        ack_error // high if ACK not received
+    input  logic        clk,
+    input  logic        tick_4x,    // Pulse at 4x SCL frequency
+    input  logic        rst_n,
+    input  logic        enable,
+    input  logic        rw,         // 0 for Write, 1 for Read
+    input  logic [6:0]  slave_addr, // 7-bit destination address
+    input  logic [11:0] data_in,    // 12-bit data to send (Write)
+    output logic [11:0] data_out,   // 12-bit data received (Read)
+    output logic        ack_err,    // High if slave NACKs
+    inout  wire         sda,
+    inout  wire         scl,
+    output logic        done
 );
 
-    // State variables 
-    state_t current_state, next_state;
-    
-    // Phase and bit counters
-    logic [1:0] phase;
-    logic [2:0] bit_cnt;
-    
-    logic sda_out;
-    logic scl_out;
-        
+    // FSM States
+    typedef enum logic [3:0] {
+        IDLE, START, ADDR, ACK1, 
+        TX_DATA1, ACK2, TX_DATA2, ACK3,   // Write Path
+        RX_DATA1, M_ACK, RX_DATA2, M_NACK, // Read Path
+        STOP
+    } master_state_t;
+
+    master_state_t state, next_state;
+
+    logic [1:0]  phase;
+    logic [3:0]  bit_cnt, bit_cnt_next;
+    logic [11:0] shift_reg, shift_reg_next;
+    logic        sda_out, scl_out;
+    logic        ack_err_next;
+
+    // --- Clock Phase Generator ---
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            current_state <= IDLE;
-            phase         <= 2'b00;
-            bit_cnt       <= 3'd0;
+            state     <= IDLE;
+            phase     <= 2'b00;
+            bit_cnt   <= 0;
+            shift_reg <= 0;
+            ack_err   <= 0;
         end else if (tick_4x) begin
             if (phase == 2'b11) begin
-                phase         <= 2'b00;
-                current_state <= next_state;      
-                if (current_state == ADDR || current_state == DATA_1 || current_state == DATA_2)
-                    bit_cnt <= bit_cnt + 1;
-                else
-                    bit_cnt <= 3'b000;
+                phase     <= 2'b00;
+                state     <= next_state;
+                bit_cnt   <= bit_cnt_next;
+                shift_reg <= shift_reg_next;
+                ack_err   <= ack_err_next;
             end else begin
                 phase <= phase + 1;
             end
         end
     end
 
+    // --- Master Logic ---
     always_comb begin
-        next_state = current_state;
-        sda_out    = 1'b1;
-        scl_out    = 1'b1;
-        done       = 1'b0;
+        next_state     = state;
+        bit_cnt_next   = bit_cnt;
+        shift_reg_next = shift_reg;
+        ack_err_next   = ack_err;
+        sda_out        = 1;
+        scl_out        = 1;
+        done           = 0;
 
-        case (current_state)
+        case (state)
             IDLE: begin
-                sda_out = 1'b1;
-                scl_out = 1'b1;
-                if (enable) next_state = START;
+                if (enable) begin
+                    next_state     = START;
+                    shift_reg_next = data_in;
+                    ack_err_next   = 0;
+                end
             end
 
             START: begin
-                next_state = ADDR;
-                case (phase)
-                    2'b00:        begin sda_out = 1; scl_out = 1; end 
-                    2'b01, 2'b10: begin sda_out = 0; scl_out = 1; end
-                    2'b11:        begin sda_out = 0; scl_out = 0; end
-                endcase
+                // SCL stays High while SDA goes Low
+                sda_out = (phase == 2'b00) ? 1 : 0;
+                scl_out = 1;
+                if (phase == 2'b11) next_state = ADDR;
             end
 
             ADDR: begin
-                next_state = (bit_cnt == 3'd7) ? ACK_1 : ADDR;
-                sda_out = (bit_cnt < 7) ? slave_addr[6 - bit_cnt] : rw;
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+                sda_out      = (bit_cnt < 7) ? slave_addr[6-bit_cnt] : rw;
+                scl_out      = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                bit_cnt_next = (phase == 2'b11) ? (bit_cnt == 7 ? 0 : bit_cnt + 1) : bit_cnt;
+                if (bit_cnt == 7 && phase == 2'b11) next_state = ACK1;
             end
 
-            ACK_1: begin
-                next_state = DATA_1;
-                sda_out = 1'b1;
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+            ACK1: begin
+                sda_out = 1; // Release bus
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                // Sample ACK at middle of High pulse (Phase 2)
+                if (phase == 2'b10 && sda != 0) ack_err_next = 1;
+                if (phase == 2'b11) next_state = (rw) ? RX_DATA1 : TX_DATA1;
             end
 
-            DATA_1: begin
-                next_state = (bit_cnt == 3'd7) ? ACK_2 : DATA_1;
-                sda_out = data_in[11 - bit_cnt];
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+            // -------- WRITE PATH --------
+            TX_DATA1: begin
+                sda_out      = shift_reg[11-bit_cnt];
+                scl_out      = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                bit_cnt_next = (phase == 2'b11) ? (bit_cnt == 7 ? 0 : bit_cnt + 1) : bit_cnt;
+                if (bit_cnt == 7 && phase == 2'b11) next_state = ACK2;
             end
 
-            ACK_2: begin
-                next_state = DATA_2;
-                sda_out = 1'b1;
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+            ACK2: begin
+                sda_out = 1;
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b10 && sda != 0) ack_err_next = 1;
+                if (phase == 2'b11) next_state = TX_DATA2;
             end
 
-            DATA_2: begin
-                next_state = (bit_cnt == 3'd7) ? ACK_3 : DATA_2;
-                sda_out = (bit_cnt < 4) ? data_in[3 - bit_cnt] : 1'b0; 
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+            TX_DATA2: begin
+                // Sending 4 bits + 4 padding bits to fulfill 8-bit byte protocol
+                sda_out      = (bit_cnt < 4) ? shift_reg[3-bit_cnt] : 0;
+                scl_out      = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                bit_cnt_next = (phase == 2'b11) ? (bit_cnt == 7 ? 0 : bit_cnt + 1) : bit_cnt;
+                if (bit_cnt == 7 && phase == 2'b11) next_state = ACK3;
             end
 
-            ACK_3: begin
-                next_state = STOP;
-                sda_out = 1'b1;
-                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1'b1 : 1'b0;
+            ACK3: begin
+                sda_out = 1;
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b10 && sda != 0) ack_err_next = 1;
+                if (phase == 2'b11) next_state = STOP;
+            end
+
+            // -------- READ PATH --------
+            RX_DATA1: begin
+                sda_out = 1; // Input mode
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b10) shift_reg_next[11-bit_cnt] = sda;
+                bit_cnt_next = (phase == 2'b11) ? (bit_cnt == 7 ? 0 : bit_cnt + 1) : bit_cnt;
+                if (bit_cnt == 7 && phase == 2'b11) next_state = M_ACK;
+            end
+
+            M_ACK: begin
+                sda_out = 0; // Master pulls SDA Low to ACK the byte
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b11) next_state = RX_DATA2;
+            end
+
+            RX_DATA2: begin
+                sda_out = 1;
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b10 && bit_cnt < 4) shift_reg_next[3-bit_cnt] = sda;
+                bit_cnt_next = (phase == 2'b11) ? (bit_cnt == 7 ? 0 : bit_cnt + 1) : bit_cnt;
+                if (bit_cnt == 7 && phase == 2'b11) next_state = M_NACK;
+            end
+
+            M_NACK: begin
+                sda_out = 1; // Master sends NACK (SDA High) to stop slave
+                scl_out = (phase == 2'b01 || phase == 2'b10) ? 1 : 0;
+                if (phase == 2'b11) next_state = STOP;
             end
 
             STOP: begin
-                next_state = IDLE;
-                case (phase)
-                    2'b00:        begin sda_out = 0; scl_out = 0; end
-                    2'b01:        begin sda_out = 0; scl_out = 1; end
-                    2'b10, 2'b11: begin sda_out = 1; scl_out = 1; end
-                endcase
-                if (phase == 2'b11) done = 1'b1;
+                // SCL goes High while SDA is Low, then SDA goes High
+                sda_out = (phase == 2'b00 || phase == 2'b01) ? 0 : 1;
+                scl_out = (phase == 2'b00) ? 0 : 1;
+                if (phase == 2'b11) begin
+                    done       = 1;
+                    next_state = IDLE;
+                end
             end
-
-            default: next_state = IDLE;
         endcase
     end
 
-    assign sda = (sda_out == 1'b0) ? 1'b0 : 1'bz;
-    assign scl = (scl_out == 1'b0) ? 1'b0 : 1'bz;
+    // Tri-state buffer logic
+    assign sda = (sda_out == 0) ? 1'b0 : 1'bz;
+    assign scl = (scl_out == 0) ? 1'b0 : 1'bz;
+    assign data_out = shift_reg;
 
 endmodule

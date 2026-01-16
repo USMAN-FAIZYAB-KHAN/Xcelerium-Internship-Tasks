@@ -3,23 +3,25 @@ import i2c_pkg::*;
 
 interface i2c_if(input logic clk);
     logic rst_n;
-
-    logic [11:0] slave_data_in;
-    logic [11:0] slave_data_out;
     logic [11:0] master_data_in;
     logic [11:0] master_data_out;
-
-    logic slave_done;
+    logic [11:0] slave_data_in;
+    logic [11:0] slave_data_out;
     logic master_done;
-
+    logic slave_done;
     logic rw;
     logic [6:0] slave_addr;
     logic enable;
     logic tick_4x;
     logic ack_error;
 
-    tri1 sda;
-    tri1 scl;
+    // Internal state probing for coverage
+    logic [3:0] master_state;
+    logic [3:0] slave_state;
+
+    // Physical bus
+    wire sda;
+    wire scl;
 endinterface
 
 module i2c_tb;
