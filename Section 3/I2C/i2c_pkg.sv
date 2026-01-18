@@ -1,19 +1,21 @@
 package i2c_pkg;
 
-    // State definitions matching the RTL
     typedef enum logic [3:0] {
-        IDLE, START, ADDR, ACK1, TX_DATA1, ACK2, TX_DATA2, ACK3, STOP
-    } m_state_t;
+        IDLE, START, ADDR, ACK_1,
+        DATA_1, ACK_2,
+        DATA_2, ACK_3,
+        STOP
+    } state_t;
 
     class i2c_txn;
         rand bit [11:0] data;
         rand bit rw;
         rand bit [6:0] slave_addr;
         
-        constraint addr_c { slave_addr inside {6, 7}; }
+      constraint addr_c { slave_addr inside {7'd50}; }
 
         function void display(string tag);
-            $display("[%0t][%s] data=%h rw=%b slave_addr=%h", $time, tag, data, rw, slave_addr);
+          $display("[%0t][%s] data=%h rw=%b slave_addr=%d", $time, tag, data, rw, slave_addr);
         endfunction
     endclass
 
@@ -62,20 +64,22 @@ package i2c_pkg;
             i2c_txn t;
             forever begin
                 gen2drv.get(t);
+              	t.display("DRI");
                 vif.slave_addr     <= t.slave_addr;
                 vif.rw             <= t.rw;
-
-                if (t.rw == 0)
-                    vif.master_data_in <= t.data;
-                else
-                    vif.slave_data_in  <= t.data;
-
-                vif.enable <= 1'b1;
-                @(posedge vif.clk);
-                vif.enable <= 1'b0;
-                
-                wait(vif.master_done);
-                @(posedge vif.clk);
+              	
+              	if (t.rw == 0)
+                	vif.master_data_in <= t.data;
+              	else
+                  	vif.slave_data_in <= t.data;
+              
+                vif.enable         <= 1'b1;
+              
+             	wait(vif.master_done == 1);
+              	wait(vif.master_done == 0);
+              	vif.enable         <= 1'b0;
+              	
+              	@(posedge vif.clk);
             end
         endtask
     endclass
@@ -84,25 +88,69 @@ package i2c_pkg;
         virtual i2c_if vif;
         mailbox #(i2c_txn) mon2scb;
 
-        // covergroup cg_i2c;
-        //     option.per_instance = 1;
-        //     cp_rw: coverpoint vif.rw;
-        //     cp_ack_err: coverpoint vif.ack_error;
-        //     cp_m_state: coverpoint vif.master_state {
-        //         bins states[] = {[0:8]}; // IDLE to STOP
-        //     }
-        // endgroup
+      covergroup cg_i2c @(posedge vif.clk);
+            option.per_instance = 1;
+
+            cp_rw: coverpoint vif.rw {
+                bins read  = {1'b1};
+                bins write = {1'b0};
+            }
+
+            cp_master_state: coverpoint vif.master_state {
+                bins m_states[] = {IDLE, START, ADDR, ACK_1, DATA_1, ACK_2, DATA_2, ACK_3, STOP};
+            }
+
+            cp_slave_state: coverpoint vif.slave_state {
+                bins s_states[] = {IDLE, START, ADDR, ACK_1, DATA_1, ACK_2, DATA_2, ACK_3, STOP};
+            }
+
+            cp_slave_addr: coverpoint vif.slave_addr {
+                bins valid_slave = {7'd76};
+                bins other_addr  = {[0:127]} with (item != 7'd76);
+            }
+
+            cp_master_data: coverpoint vif.master_data_in {
+                bins min_val = {12'h000};
+                bins max_val = {12'hFFF};
+                bins others  = {[1:4094]};
+            }
+
+            cp_master_trans: coverpoint vif.master_state {
+                bins idle_to_start    = (IDLE  => START);
+                bins start_to_addr    = (START => ADDR);
+                bins addr_to_ack1     = (ADDR  => ACK_1);
+                bins ack1_to_data1    = (ACK_1 => DATA_1);
+                bins ack1_to_stop     = (ACK_1 => STOP);
+                bins data1_to_ack2    = (DATA_1 => ACK_2);
+                bins ack2_to_data2    = (ACK_2 => DATA_2);
+                bins data2_to_ack3    = (DATA_2 => ACK_3);
+                bins ack3_to_stop     = (ACK_3 => STOP);
+                bins stop_to_idle     = (STOP  => IDLE);
+            }
+
+            cp_slave_trans: coverpoint vif.slave_state {
+                bins idle_to_start    = (IDLE  => START);
+                bins start_to_addr    = (START => ADDR);
+                bins addr_to_ack1     = (ADDR  => ACK_1);
+                bins addr_to_idle     = (ADDR  => IDLE);
+                bins ack1_to_data1    = (ACK_1 => DATA_1);
+                bins data1_to_ack2    = (DATA_1 => ACK_2);
+                bins ack2_to_data2    = (ACK_2 => DATA_2);
+                bins data2_to_ack3    = (DATA_2 => ACK_3);
+                bins ack3_to_stop     = (ACK_3 => STOP);
+            }
+        endgroup
 
         function new(virtual i2c_if vif, mailbox #(i2c_txn) mb);
             this.vif = vif;
             this.mon2scb = mb;
-            // cg_i2c = new();
+            cg_i2c = new();
         endfunction
 
         task run();
             i2c_txn t;
             forever begin
-                wait(vif.master_done == 1'b1);
+              @(posedge vif.master_done);
                 t = new();
                 t.data = (vif.rw) ? vif.master_data_out : vif.slave_data_out;
                 t.slave_addr = vif.slave_addr;
@@ -116,27 +164,43 @@ package i2c_pkg;
     class scoreboard;
         mailbox #(i2c_txn) gen2scb, mon2scb;
         event done;
+        
+        int target_addr = 76; 
 
         function new(mailbox #(i2c_txn) m1, m2);
-            gen2scb = m1; mon2scb = m2;
+            gen2scb = m1; 
+            mon2scb = m2;
         endfunction
 
         task run(int total);
             int count = 0;
             i2c_txn t_gen, t_mon;
+            
             forever begin
                 gen2scb.get(t_gen);
                 mon2scb.get(t_mon);
-                if(t_gen.slave_addr == 7) begin // Only check if addr matches slave
-                    if(t_gen.rw == 0 && t_mon.data !== t_gen.data) 
-                        $error("[SCB] Write Mismatch! Gen:%h Mon:%h", t_gen.data, t_mon.data);
-                    else $display("[SCB] Match Verified.");
+                
+              if (t_gen.slave_addr == target_addr) begin
+                    
+                    if (t_gen.rw == 0) begin 
+                        if (t_mon.data === t_gen.data)
+                            $display("[SCB] WRITE MATCH: Addr %0d | Data: %h", target_addr, t_mon.data);
+                        else
+                            $error("[SCB] WRITE MISMATCH: Addr %0d | Exp: %h, Got: %h", target_addr, t_gen.data, t_mon.data);
+                    end else begin 
+                        if (t_mon.data === t_gen.data)
+                            $display("[SCB] READ MATCH: Addr %0d | Data: %h", target_addr, t_mon.data);
+                        else
+                            $error("[SCB] READ MISMATCH: Addr %0d | Exp: %h, Got: %h", target_addr, t_gen.data, t_mon.data);
+                    end
                 end else begin
-                    $display("[SCB] NACK expected and observed for addr %h", t_gen.slave_addr);
+                    $display("[SCB] ADDR MISMATCH: Slave %0d ignored txn to %0d.", target_addr, t_gen.slave_addr);
                 end
+
                 count++;
                 if(count == total) -> done;
             end
         endtask
     endclass
 endpackage
+

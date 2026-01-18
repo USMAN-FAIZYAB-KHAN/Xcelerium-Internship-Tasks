@@ -8,20 +8,18 @@ interface i2c_if(input logic clk);
     logic [11:0] slave_data_in;
     logic [11:0] slave_data_out;
     logic master_done;
+  	logic master_busy;
     logic slave_done;
     logic rw;
     logic [6:0] slave_addr;
     logic enable;
     logic tick_4x;
-    logic ack_error;
 
-    // Internal state probing for coverage
     logic [3:0] master_state;
     logic [3:0] slave_state;
 
-    // Physical bus
-    wire sda;
-    wire scl;
+    tri1 sda;
+    tri1 scl;
 endinterface
 
 module i2c_tb;
@@ -44,12 +42,12 @@ module i2c_tb;
         .scl(inf.scl),
         .data_in(inf.master_data_in),
         .data_out(inf.master_data_out),
-        .done(inf.master_done),
         .rw(inf.rw),
         .slave_addr(inf.slave_addr),
         .enable(inf.enable),
         .tick_4x(inf.tick_4x),
-        .ack_error(inf.ack_error)
+      	.done(inf.master_done),
+      .busy(inf.master_busy)
     );
 
     i2c_slave DUT_SLAVE (
@@ -59,7 +57,7 @@ module i2c_tb;
         .scl(inf.scl),
         .data_in(inf.slave_data_in),
         .data_out(inf.slave_data_out),
-        .done(inf.slave_done),
+        .done(inf.slave_done)
     );
 
     mailbox #(i2c_txn) gen2drv;
@@ -70,8 +68,15 @@ module i2c_tb;
     driver     drv;
     monitor    mon;
     scoreboard scb;
+  
+  	assign inf.master_state = DUT_MASTER.current_state;
+  	assign inf.slave_state = DUT_SLAVE.state;
 
     initial begin
+      $dumpfile("i2c_sim.vcd");
+      $dumpvars(0, DUT_MASTER);
+      $dumpvars(0, DUT_SLAVE);
+      
         gen2drv = new();
         gen2scb = new();
         mon2scb = new();
@@ -86,10 +91,10 @@ module i2c_tb;
         #50 inf.rst_n = 1;
 
         fork
-            gen.run('{12'hA5A, 12'h0F0, 12'hFFF}, '{1'b0, 1'b1, 1'b0}, '{7'd7, 7'd6, 7'd7}, 2);
-            drv.run();
-            mon.run();
-            scb.run(5);
+          gen.run('{12'hFFF, 12'hCCC, 12'h0}, '{7'd76, 7'd76, 7'd76}, '{1'b0, 1'b1, 1'b0}, 4);
+          drv.run();
+          mon.run();
+          scb.run(7);
         join_none
 
         @(scb.done);

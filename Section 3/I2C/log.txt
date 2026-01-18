@@ -1,0 +1,30 @@
+run -all;
+# KERNEL: [50000][GEN] data=fff rw=0 slave_addr= 76
+# KERNEL: [50000][GEN] data=ccc rw=1 slave_addr= 76
+# KERNEL: [50000][GEN] data=000 rw=0 slave_addr= 76
+# KERNEL: [50000][GEN] data=f3c rw=0 slave_addr= 77
+# KERNEL: [50000][GEN] data=1ab rw=1 slave_addr= 76
+# KERNEL: [50000][GEN] data=3f0 rw=0 slave_addr= 76
+# KERNEL: [50000][GEN] data=b68 rw=1 slave_addr= 77
+# KERNEL: [50000][DRI] data=fff rw=0 slave_addr= 76
+# KERNEL: [148805000][MON] data=fff rw=0 slave_addr= 76
+# KERNEL: [SCB] WRITE MATCH: Addr 76 | Data: fff
+# KERNEL: [150065000][DRI] data=ccc rw=1 slave_addr= 76
+# KERNEL: [298805000][MON] data=ccc rw=1 slave_addr= 76
+# KERNEL: [SCB] READ MATCH: Addr 76 | Data: ccc
+# KERNEL: [300065000][DRI] data=000 rw=0 slave_addr= 76
+# KERNEL: [448805000][MON] data=000 rw=0 slave_addr= 76
+# KERNEL: [SCB] WRITE MATCH: Addr 76 | Data: 000
+# KERNEL: [450065000][DRI] data=f3c rw=0 slave_addr= 77
+# KERNEL: [508805000][MON] data=000 rw=0 slave_addr= 77
+# KERNEL: [SCB] ADDR MISMATCH: Slave 76 ignored txn to 77.
+# KERNEL: [510065000][DRI] data=1ab rw=1 slave_addr= 76
+# KERNEL: [658805000][MON] data=1ab rw=1 slave_addr= 76
+# KERNEL: [SCB] READ MATCH: Addr 76 | Data: 1ab
+# KERNEL: [660065000][DRI] data=3f0 rw=0 slave_addr= 76
+# KERNEL: [808805000][MON] data=3f0 rw=0 slave_addr= 76
+# KERNEL: [SCB] WRITE MATCH: Addr 76 | Data: 3f0
+# KERNEL: [810065000][DRI] data=b68 rw=1 slave_addr= 77
+# KERNEL: [868805000][MON] data=1ab rw=1 slave_addr= 77
+# KERNEL: [SCB] ADDR MISMATCH: Slave 76 ignored txn to 77.
+# KERNEL: Simulation Finished Successfully at 868805000

@@ -1,0 +1,255 @@
++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++       REPORT INFO       ++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
+
+
+SUMMARY
+=======================================================
+|     Property     |              Value               |
+=======================================================
+| User             | runner                           |
+| Host             | 8f4e098c9bc8                     |
+| Tool             | Riviera-PRO 2023.04              |
+| Report file      | /home/runner/coverage_report.txt |
+| Report date      | 2026-01-18 16:00                 |
+| Report arguments | -verbose                         |
+| Input file       | /home/runner/fcover.acdb         |
+| Input file date  | 2026-01-18 16:00                 |
+| Number of tests  | 1                                |
+=======================================================
+
+
+TEST DETAILS
+==============================================
+| Property |              Value              |
+==============================================
+| Test     | fcover.acdb:fcover              |
+| Status   | Ok                              |
+| Args     | asim +access+r                  |
+| Simtime  | 868805000 ps                    |
+| Cputime  | 10.952 s                        |
+| Seed     | 1                               |
+| Date     | 2026-01-18 16:00                |
+| User     | runner                          |
+| Host     | 8f4e098c9bc8                    |
+| Host os  | Linux64                         |
+| Tool     | Riviera-PRO 2023.04 (simulator) |
+==============================================
+
+
++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++     DESIGN HIERARCHY    ++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
+
+
+CUMULATIVE SUMMARY
+=============================================
+|    Coverage Type    | Weight | Hits/Total |
+=============================================
+| Covergroup Coverage |      1 |   100.000% |
+|---------------------|--------|------------|
+| Types               |        |      1 / 1 |
+=============================================
+CUMULATIVE INSTANCE-BASED COVERAGE: 100.000%
+COVERED INSTANCES: 1 / 1
+FILES: 1
+
+
+CLASS - /\package i2c_pkg\/monitor : work.i2c_pkg/\i2c_pkg monitor \
+
+
+    SUMMARY
+    =============================================
+    |    Coverage Type    | Weight | Hits/Total |
+    =============================================
+    | Covergroup Coverage |      1 |   100.000% |
+    |---------------------|--------|------------|
+    | Types               |        |      1 / 1 |
+    =============================================
+    WEIGHTED AVERAGE LOCAL: 100.000%
+
+
+    COVERGROUP COVERAGE
+    ==========================================================================
+    |               Covergroup               |   Hits   |  Goal /  | Status  |
+    |                                        |          | At Least |         |
+    ==========================================================================
+    | TYPE /\package i2c_pkg\/monitor/cg_i2c | 100.000% | 100.000% | Covered |
+    ==========================================================================
+    | INSTANCE <UNNAMED1>                    | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_rw           | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin read                               |    35874 |        1 | Covered |
+    | bin write                              |    51002 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_state | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin m_states[0]                        |     3506 |        1 | Covered |
+    | bin m_states[1]                        |     3500 |        1 | Covered |
+    | bin m_states[2]                        |    28000 |        1 | Covered |
+    | bin m_states[3]                        |     3500 |        1 | Covered |
+    | bin m_states[4]                        |    20000 |        1 | Covered |
+    | bin m_states[5]                        |     2500 |        1 | Covered |
+    | bin m_states[6]                        |    20000 |        1 | Covered |
+    | bin m_states[7]                        |     2500 |        1 | Covered |
+    | bin m_states[8]                        |     3375 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_state  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin s_states[0]                        |     7756 |        1 | Covered |
+    | bin s_states[1]                        |     1750 |        1 | Covered |
+    | bin s_states[2]                        |    28000 |        1 | Covered |
+    | bin s_states[3]                        |     2500 |        1 | Covered |
+    | bin s_states[4]                        |    20000 |        1 | Covered |
+    | bin s_states[5]                        |     2500 |        1 | Covered |
+    | bin s_states[6]                        |    20000 |        1 | Covered |
+    | bin s_states[7]                        |     2500 |        1 | Covered |
+    | bin s_states[8]                        |     1875 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_addr   | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin valid_slave                        |    75002 |        1 | Covered |
+    | bin other_addr                         |    11874 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_data  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin min_val                            |    15000 |        1 | Covered |
+    | bin max_val                            |    30002 |        1 | Covered |
+    | bin others                             |    41874 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_trans | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin idle_to_start                      |        7 |        1 | Covered |
+    | bin start_to_addr                      |        7 |        1 | Covered |
+    | bin addr_to_ack1                       |        7 |        1 | Covered |
+    | bin ack1_to_data1                      |        5 |        1 | Covered |
+    | bin ack1_to_stop                       |        2 |        1 | Covered |
+    | bin data1_to_ack2                      |        5 |        1 | Covered |
+    | bin ack2_to_data2                      |        5 |        1 | Covered |
+    | bin data2_to_ack3                      |        5 |        1 | Covered |
+    | bin ack3_to_stop                       |        5 |        1 | Covered |
+    | bin stop_to_idle                       |        6 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_trans  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin idle_to_start                      |        7 |        1 | Covered |
+    | bin start_to_addr                      |        7 |        1 | Covered |
+    | bin addr_to_ack1                       |        5 |        1 | Covered |
+    | bin addr_to_idle                       |        2 |        1 | Covered |
+    | bin ack1_to_data1                      |        5 |        1 | Covered |
+    | bin data1_to_ack2                      |        5 |        1 | Covered |
+    | bin ack2_to_data2                      |        5 |        1 | Covered |
+    | bin data2_to_ack3                      |        5 |        1 | Covered |
+    | bin ack3_to_stop                       |        5 |        1 | Covered |
+    ==========================================================================
+
+
++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++       DESIGN UNITS      ++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
+
+
+CUMULATIVE SUMMARY
+=============================================
+|    Coverage Type    | Weight | Hits/Total |
+=============================================
+| Covergroup Coverage |      1 |   100.000% |
+|---------------------|--------|------------|
+| Types               |        |      1 / 1 |
+=============================================
+CUMULATIVE DESIGN-BASED COVERAGE: 100.000%
+COVERED DESIGN UNITS: 1 / 1
+FILES: 1
+
+
+CLASS - work.i2c_pkg/\i2c_pkg monitor \
+
+
+    SUMMARY
+    =============================================
+    |    Coverage Type    | Weight | Hits/Total |
+    =============================================
+    | Covergroup Coverage |      1 |   100.000% |
+    |---------------------|--------|------------|
+    | Types               |        |      1 / 1 |
+    =============================================
+    WEIGHTED AVERAGE: 100.000%
+
+
+    COVERGROUP COVERAGE
+    ==========================================================================
+    |               Covergroup               |   Hits   |  Goal /  | Status  |
+    |                                        |          | At Least |         |
+    ==========================================================================
+    | TYPE /\package i2c_pkg\/monitor/cg_i2c | 100.000% | 100.000% | Covered |
+    ==========================================================================
+    | INSTANCE <UNNAMED1>                    | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_rw           | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin read                               |    35874 |        1 | Covered |
+    | bin write                              |    51002 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_state | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin m_states[0]                        |     3506 |        1 | Covered |
+    | bin m_states[1]                        |     3500 |        1 | Covered |
+    | bin m_states[2]                        |    28000 |        1 | Covered |
+    | bin m_states[3]                        |     3500 |        1 | Covered |
+    | bin m_states[4]                        |    20000 |        1 | Covered |
+    | bin m_states[5]                        |     2500 |        1 | Covered |
+    | bin m_states[6]                        |    20000 |        1 | Covered |
+    | bin m_states[7]                        |     2500 |        1 | Covered |
+    | bin m_states[8]                        |     3375 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_state  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin s_states[0]                        |     7756 |        1 | Covered |
+    | bin s_states[1]                        |     1750 |        1 | Covered |
+    | bin s_states[2]                        |    28000 |        1 | Covered |
+    | bin s_states[3]                        |     2500 |        1 | Covered |
+    | bin s_states[4]                        |    20000 |        1 | Covered |
+    | bin s_states[5]                        |     2500 |        1 | Covered |
+    | bin s_states[6]                        |    20000 |        1 | Covered |
+    | bin s_states[7]                        |     2500 |        1 | Covered |
+    | bin s_states[8]                        |     1875 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_addr   | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin valid_slave                        |    75002 |        1 | Covered |
+    | bin other_addr                         |    11874 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_data  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin min_val                            |    15000 |        1 | Covered |
+    | bin max_val                            |    30002 |        1 | Covered |
+    | bin others                             |    41874 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_master_trans | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin idle_to_start                      |        7 |        1 | Covered |
+    | bin start_to_addr                      |        7 |        1 | Covered |
+    | bin addr_to_ack1                       |        7 |        1 | Covered |
+    | bin ack1_to_data1                      |        5 |        1 | Covered |
+    | bin ack1_to_stop                       |        2 |        1 | Covered |
+    | bin data1_to_ack2                      |        5 |        1 | Covered |
+    | bin ack2_to_data2                      |        5 |        1 | Covered |
+    | bin data2_to_ack3                      |        5 |        1 | Covered |
+    | bin ack3_to_stop                       |        5 |        1 | Covered |
+    | bin stop_to_idle                       |        6 |        1 | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | COVERPOINT <UNNAMED1>::cp_slave_trans  | 100.000% | 100.000% | Covered |
+    |----------------------------------------|----------|----------|---------|
+    | bin idle_to_start                      |        7 |        1 | Covered |
+    | bin start_to_addr                      |        7 |        1 | Covered |
+    | bin addr_to_ack1                       |        5 |        1 | Covered |
+    | bin addr_to_idle                       |        2 |        1 | Covered |
+    | bin ack1_to_data1                      |        5 |        1 | Covered |
+    | bin data1_to_ack2                      |        5 |        1 | Covered |
+    | bin ack2_to_data2                      |        5 |        1 | Covered |
+    | bin data2_to_ack3                      |        5 |        1 | Covered |
+    | bin ack3_to_stop                       |        5 |        1 | Covered |
+    ==========================================================================
+
+
