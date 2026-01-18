@@ -10,6 +10,7 @@
 # [WRITE] Data: 23a7
 # [WRITE] Data: 4716
 # [WRITE] Data: e1c4
+# Status Check: FIFO is FULL as expected.
 # [WRITE SKIP] FIFO Full! Cannot write beef
 # 
 # Test 2: Emptying FIFO...
@@ -24,25 +25,25 @@
 # Status Check: FIFO is EMPTY as expected.
 # 
 # Test 3: Randomized sequence...
-# [WRITE] Data: 3524
-# [READ SUCCESS] Data: 3524
-# [WRITE] Data: 5e81
-# [READ SUCCESS] Data: 5e81
-# [READ SKIP] FIFO Empty!
-# [WRITE] Data: d609
-# [WRITE] Data: 5663
-# [READ SUCCESS] Data: d609
-# [WRITE] Data: 7b0d
-# [WRITE] Data: 998d
-# [WRITE] Data: 8465
-# [READ SUCCESS] Data: 5663
-# [WRITE] Data: 5212
-# [READ SUCCESS] Data: 7b0d
-# [WRITE] Data: e301
-# [WRITE] Data: cd0d
-# [READ SUCCESS] Data: 998d
-# [WRITE] Data: f176
-# [READ SUCCESS] Data: 8465
-# [WRITE] Data: cd3d
+# [WRITE] Data: 3d59
+# [WRITE] Data: 4bfb
+# [READ SUCCESS] Data: 3d59
+# [WRITE] Data: 4ffc
+# [READ SUCCESS] Data: 4bfb
+# [WRITE] Data: 1196
+# [WRITE] Data: 9d17
+# [WRITE] Data: be83
+# [WRITE] Data: a814
+# [READ SUCCESS] Data: 4ffc
+# [WRITE] Data: 604f
+# [WRITE] Data: e897
+# [READ SUCCESS] Data: 1196
+# [WRITE] Data: 4bac
+# [WRITE] Data: d4e4
+# [WRITE] Data: 1f85
+# [WRITE SKIP] FIFO Full! Cannot write 169b
+# [WRITE SKIP] FIFO Full! Cannot write 58ad
+# [READ SUCCESS] Data: 9d17
+# [WRITE] Data: eb99
 # 
 # --- Simulation Finished ---

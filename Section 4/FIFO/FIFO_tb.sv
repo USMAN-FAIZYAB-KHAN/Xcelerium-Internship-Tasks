@@ -44,6 +44,7 @@ module FIFO_tb;
             $display("[WRITE SKIP] FIFO Full! Cannot write %h", val);
         end
         @(posedge clk);
+		#1;
         write_en = 0;
     endtask
 
@@ -66,6 +67,7 @@ module FIFO_tb;
         read_en = 0;
     endtask
 
+    // --- Main Test Stimulus ---
     initial begin
         int op;
         rst = 1;
@@ -96,12 +98,13 @@ module FIFO_tb;
         end
 
         if (empty) $display("Status Check: FIFO is EMPTY as expected.");
+		@(posedge clk);
 
         // 4. Randomized Read/Write Sequence
         $display("\nTest 3: Randomized sequence...");
         repeat (20) begin
             op = $urandom_range(0, 1);
-            if (op == 0) write_data($random % 65536);
+            if (op == 0) write_data($urandom_range(16'hFFFF));
             else        read_data();
             #10;
         end
