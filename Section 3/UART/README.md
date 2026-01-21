@@ -8,11 +8,10 @@ The system consists of three main hardware modules:
 - __UART Receiver (RX)__: Reconstructs 8-bit parallel data from the serial input by sampling the center of each bit period for maximum reliability.
 
 ## FSM Design
+### UART Transmitter
+<img width="1471" height="2003" alt="UART Transmitter State Diagram" src="https://github.com/user-attachments/assets/1023322a-03b1-4ac2-a4af-130a315a7ef1" />
 ### UART Receiver
 <img width="1471" height="2048" alt="UART Receiver State Diagram" src="https://github.com/user-attachments/assets/9bf879dd-1b1c-4c87-aaa9-2ff4d04268cf" />
-### UART Transmitter
-
-
 
 ## Verification Methodology
 The project uses a Layered Testbench architecture to automate the verification process.
