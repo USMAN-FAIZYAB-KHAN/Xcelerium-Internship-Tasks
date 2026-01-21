@@ -9,7 +9,8 @@ The system consists of three main hardware modules:
 
 ## FSM Design
 ### UART Transmitter
-<img width="1471" height="2003" alt="UART Transmitter State Diagram" src="https://github.com/user-attachments/assets/1023322a-03b1-4ac2-a4af-130a315a7ef1" />
+<img width="1471" height="2003" alt="UART Transmitter State Diagram" src="https://github.com/user-attachments/assets/1abea5dc-a1df-426d-aeb3-95b8426ab55e" />
+
 ### UART Receiver
 <img width="1471" height="2048" alt="UART Receiver State Diagram" src="https://github.com/user-attachments/assets/9bf879dd-1b1c-4c87-aaa9-2ff4d04268cf" />
 
@@ -22,8 +23,7 @@ The project uses a Layered Testbench architecture to automate the verification p
 
 ## Functional Coverage
 Verification completeness is tracked via a covergroup in the Monitor to ensure the FSMs were thoroughly exercised:
-- __Signal Coverage__: Ensures correct activity on UART control and data<img width="1471" height="2048" alt="S0 (5)" src="https://github.com/user-attachments/assets/1e2d906c-3f3e-4a7d-b6cd-4d4fdb43d234" />
- signals by verifying that:
+- __Signal Coverage__: Ensures correct activity on UART control and data signals by verifying that:
   - `tx` and `rx` lines toggle between logic 0 and 1
   - `tx_done` and `rx_done` are asserted, confirming successful transmission and reception events
 
